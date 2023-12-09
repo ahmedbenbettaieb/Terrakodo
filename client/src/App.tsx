@@ -1,14 +1,13 @@
 import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import { Navigate, BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Login } from "./components/login";
 import { Register } from "./components/register";
 import { Chat } from "./components/Chat";
 
 function App() {
+  const userToken = localStorage.getItem("token");
+
   return (
     <>
       <Toaster position="top-center" reverseOrder={false} />
@@ -16,9 +15,12 @@ function App() {
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<Chat />} />
-
-
+          {userToken ? (
+            <Route path="/home" element={<Chat />} />
+          ) : (
+            <Navigate to="/login" replace />
+          )}
+          <Route path="/*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
     </>
