@@ -1,7 +1,6 @@
 import React from "react";
 import { axiosInstance } from "../../axios/axiosInstance";
-import { Form, Input, Button } from "antd";
-import toast from "react-hot-toast";
+import { Form, Input, Button, message } from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./index.css"
@@ -14,12 +13,12 @@ export function Register() {
       // Use the axios instance to make a POST request
       const response = await axiosInstance.post("/auth/register", values);
       if (response.data.success) {
-        toast.success(response.data.message);
+        message.success(response.data.message);
       } else {
-        toast.error(response.data.message);
+        message.error(response.data.message);
       }
     } catch (error) {
-      toast.error("something went wrong");
+    message.error("something went wrong");
     }
   };
   return (
