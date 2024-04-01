@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TaskController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +29,14 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/profile', [AuthController::class, 'profile']);
+
+
+});
+
+Route::group(['middleware' => 'api', 'prefix' => 'task'], function () {
+   
+    Route::post('/create', [TaskController::class, 'create']);
+    Route::post('/update/{id}', [TaskController::class, 'update']);
 
 
 });

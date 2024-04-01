@@ -1,7 +1,6 @@
 import React from "react";
 
-import { Input, Button, Form } from "antd";
-import toast from "react-hot-toast";
+import { Input, Button, Form, message } from "antd";
 import { axiosInstance } from "../../axios/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
@@ -14,14 +13,14 @@ export function Login() {
       // Use the axios instance to make a POST request
       const response = await axiosInstance.post("/auth/login", values);
       if (response.data.success) {
-        toast.success(response.data.message);
+        message.success(response.data.message);
         localStorage.setItem("token", response.data.access_token);
         navigate("/home");
       } else {
-        toast.error(response.data.message);
+        message.error(response.data.message);
       }
     } catch (error) {
-      toast.error("something went wrong");
+      message.error("something went wrong");
     }
   };
   return (
