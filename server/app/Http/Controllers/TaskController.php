@@ -109,7 +109,6 @@ class TaskController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // Fetch the task with the specified ID
         $task = Task::where('user_id', $user->id)->find($id);
 
         if (!$task) {
@@ -176,6 +175,10 @@ class TaskController extends Controller
         if ($request->has('due_date')) {
             $task->due_date = $request->due_date;
         }
+        if ($request->has('status')) {
+            $task->status = $request->status;
+        }
+        
 
         // Save the updated task
         $task->update();
@@ -202,6 +205,23 @@ class TaskController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // Deleting logic
+        // Find the task by ID
+        $task = Task::find($id);
+
+        // Check if the task exists
+        if (!$task) {
+            return response()->json(['error' => 'Task not found'], 404);
+        }
+
+        // Check if the authenticated user owns the task
+        if ($task->user_id !== $user->id) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        // Delete the task
+        $task->delete();
+
+        // Return success response
+        return response()->json(['message' => 'Task deleted successfully'], 200);
     }
 }
