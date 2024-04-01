@@ -26,13 +26,15 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $user = $this->getUser();
+        $user = auth()->user();
+
+        // Check if the user is authenticated
         if (!$user) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         // Fetch tasks belonging to the authenticated user
-        $tasks = Task::where('user_id', $user->id)->get();
+        $tasks = Task::where('userID', $user->id)->get();
 
         return response()->json($tasks);
     }
@@ -72,7 +74,7 @@ class TaskController extends Controller
         $task->save();
 
         // Return success response
-        return response()->json(['message' => 'Task created successfully', 'task' => $task], 201);
+        return response()->json(['message' => 'Task created successfully', 'success' => true], 201);
     } catch (\Exception $e) {
         // Handle any exceptions
         return response()->json(['error' => 'Failed to create task', 'message' => $e->getMessage()], 500);
@@ -104,17 +106,11 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        $user = $this->getUser();
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        
 
-        $task = Task::where('user_id', $user->id)->find($id);
+        $task = Task::find($id);
 
-        if (!$task) {
-            return response()->json(['error' => 'Task not found'], 404);
-        }
-
+      
         return response()->json($task);
     }
 
@@ -184,7 +180,7 @@ class TaskController extends Controller
         $task->update();
 
         // Return success response
-        return response()->json(['message' => 'Task updated successfully', 'task' => $task], 200);
+        return response()->json(['message' => 'Task updated successfully', 'success' => true]);
     } catch (\Exception $e) {
         // Handle any exceptions
         return response()->json(['error' => 'Failed to update task', 'message' => $e->getMessage()], 500);
@@ -200,28 +196,19 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        $user = $this->getUser();
-        if (!$user) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
+        
 
         // Find the task by ID
         $task = Task::find($id);
 
-        // Check if the task exists
         if (!$task) {
             return response()->json(['error' => 'Task not found'], 404);
         }
 
-        // Check if the authenticated user owns the task
-        if ($task->user_id !== $user->id) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+       
 
-        // Delete the task
         $task->delete();
 
-        // Return success response
-        return response()->json(['message' => 'Task deleted successfully'], 200);
+        return response()->json(['message' => 'Task deleted successfully' ,'success'=>true]);
     }
 }

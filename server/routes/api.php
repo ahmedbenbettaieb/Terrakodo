@@ -39,7 +39,7 @@ Route::group(['middleware' => 'api', 'prefix' => 'task'], function () {
     Route::post('/update/{id}', [TaskController::class, 'update']);
     Route::get('/my-tasks', [TaskController::class, 'index']);
     Route::get('/single-task/{id}', [TaskController::class, 'show']);
-    Route::delete('/delete', [TaskController::class, 'destroy']);
+    Route::delete('/delete/{id}', [TaskController::class, 'destroy']);
 
 
 });

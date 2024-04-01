@@ -15,7 +15,7 @@ export function Login() {
       if (response.data.success) {
         message.success(response.data.message);
         localStorage.setItem("token", response.data.access_token);
-        navigate("/home");
+        navigate("/all-tasks");
       } else {
         message.error(response.data.message);
       }
@@ -23,6 +23,11 @@ export function Login() {
       message.error("something went wrong");
     }
   };
+  function handleNavigate(): void {
+    navigate('/register');
+  }
+
+
   return (
     <div className="container-sm">
       <div className="row justify-content-center">
@@ -61,6 +66,8 @@ export function Login() {
               </Button>
             </Form.Item>
           </Form>
+          <Button onClick={handleNavigate}> Not registered ? </Button>
+
         </div>
       </div>
     </div>

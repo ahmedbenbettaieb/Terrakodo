@@ -4,9 +4,11 @@ import { Form, Input, Button, message } from "antd";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import "./index.css"
+import { useNavigate } from "react-router-dom";
 
 
 export function Register() {
+  const navigate=useNavigate();
   const onFinish = async (values: any) => {
     console.log(values);
     try {
@@ -21,6 +23,10 @@ export function Register() {
     message.error("something went wrong");
     }
   };
+  function handleNavigate(): void {
+    navigate('/login');
+  }
+
   return (
     <div className="container-sm">
       <div className="row justify-content-center">
@@ -80,6 +86,7 @@ export function Register() {
               </Button>
             </Form.Item>
           </Form>
+          <Button onClick={handleNavigate}> ALready have account ? </Button>
         </div>
       </div>
     </div>
